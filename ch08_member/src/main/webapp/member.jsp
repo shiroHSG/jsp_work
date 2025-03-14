@@ -18,6 +18,43 @@
     }
     th {color:white; height: 40px; font-size: 20px;}
 </style>
+
+
+
+<script src="script.js"></script>
+<!-- 주소 가져오기 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+function findAddr() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            let roadAddr = data.roadAddress;	//도로명 주소
+            let jibunAddr = data.jibunAddress;	//지번 주소
+            let extraAddr = '';
+            
+            document.getElementById("postcode").value = data.zonecode;	//우편 번호
+            
+            if(data.userSelectedType == 'R') {	//사용자가 도로명 주소 선택
+            	if(data.bname != '') {
+            		extraAddr += data.bname;
+            	}
+            	if(data.buildingName != '') {
+            		extraAddr += data.buildingName;
+            	}
+            	roadAddr += extraAddr != '' ? '(' + extraAddr + ')' : '';
+            	document.getElementById("addr").value = roadAddr;
+            } else {	//사용자가 지번 주소 선택
+            	if(data.buildingName != '') {
+            		extraAddr += data.buildingName;
+            	}
+            	jibunAddr += extraAddr != '' ? '(' + extraAddr + ')' : '';
+            	document.getElementById("addr").value = jibunAddr;
+            }
+            document.getElementById('detailAddr').focus();
+        }
+    }).open();
+}
+</script>
 </head>
 <body>
 	<form name="frm" method ="post" action="memberProc.jsp">
@@ -27,8 +64,10 @@
 			</tr>
 			<tr>
 				<td>아이디</td>
-				<td>							 	
-					<input type="button" value="ID중복확인"> 
+				<td>
+					<input name="id" onkeydown="inputIdChk();">							 	
+					<input type="button" value="ID중복확인" onclick="idCheck(this.form.id.value);">
+					<input type="hidden" name="idBtnCheck" value="idUncheck">
 				</td>
 				<td>영문과 숫자로만 입력하세요</td>
 			</tr>
@@ -71,7 +110,7 @@
 			<tr>
 				<td>E-mail</td>
 				<td>
-					<input name="email" size="40" >
+					<input type="email" name="email" size="40" >
 				</td>
 				<td>ex) email@naver.com</td>
 			</tr>
@@ -79,7 +118,7 @@
 				<td>우편번호</td>
 				<td>
 					<input name="zipcode" id="postcode" readonly>
-					<input type="button" value="우편번호 찾기" >
+					<input type="button" value="우편번호 찾기" onclick="findAddr();" >
 				</td>
 				<td>우편번호를 검색하세요</td>
 			</tr>
@@ -120,9 +159,9 @@
 			</tr>
 			<tr>
 				<td colspan="3" align="center">
-					<input type="button" value="회원가입">&emsp;
+					<input type="button" value="회원가입" onclick="inputCheck();">&emsp;
 					<input type="reset" value="다시쓰기">&emsp;
-					<input type="button" value="로그인">
+					<input type="button" value="로그인" onclick="location.href='login.jsp'">
 				</td>
 			</tr>
 		</table>
