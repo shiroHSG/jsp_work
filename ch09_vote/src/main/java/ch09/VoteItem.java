@@ -9,9 +9,8 @@ public class VoteItem {
 	private int count;
 	
 	public VoteItem() {
-		super();
 	}
-	
+
 	public VoteItem(int listnum, int itemnum, String[] item, int count) {
 		super();
 		this.listnum = listnum;
