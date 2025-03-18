@@ -22,7 +22,7 @@
  * TO THE SOFTWARE.
  *
  */
-package ch08;
+package ch09;
 
 import java.sql.*;
 import java.util.Properties;
@@ -37,7 +37,7 @@ import java.util.Vector;
 public class DBConnectionMgr {
     private Vector connections = new Vector(10);
     private String _driver = "oracle.jdbc.OracleDriver",
-    _url = "jdbc:oracle:thin:@211.184.7.124:1521:xe",
+    _url = "jdbc:oracle:thin:@localhost:1521:xe",
     _user = "jsp",
     _password = "1234";
     private boolean _traceOn = false;
